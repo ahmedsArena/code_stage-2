@@ -1,5 +1,5 @@
-Glioblastoma Gene Expression Analysis
-This project provides a step-by-step guide to visualizing gene expression data from a glioblastoma dataset. We employ heatmaps to visualize the expression patterns and conduct differential expression analysis to compute fold changes and p-values for significant genes.
+Differential Expression Analysis:
+This project provides a guide to visualizing gene expression data from a glioblastoma dataset. We employ heatmaps to visualize the expression patterns and conduct differential expression analysis to compute fold changes and p-values for significant genes.
 
 Table of Contents
 Requirements
@@ -27,17 +27,14 @@ head(gene_data)  # Preview the data
 
 The dataset consists of samples as columns and genes as rows. Each value represents the expression level of a gene in a specific sample.
 
-Heatmap Generation
-1. Basic Heatmap
-A basic heatmap helps to visualize expression values across different samples without any scaling.
-heatmap.2(as.matrix(gene_data), trace = 'none')
+Heatmap Generation:
 
-2. Scaling and Clustering
+1.Scaling and Clustering
 To highlight differences in gene expression, we can scale the data across rows (genes) and cluster samples based on their expression profiles.
 heatmap.2(as.matrix(gene_data), trace = 'none', 
           scale='row', dendrogram = 'col', 
           Colv = TRUE, Rowv = FALSE)
-3. Customizing Colors
+4. Customizing Colors
 You can enhance the visual representation of the heatmap by applying sequential or diverging color palettes.
 # Diverging colors
 heatmap.2(as.matrix(gene_data), trace = 'none', 
