@@ -186,6 +186,7 @@ Enrich_UP$Pathway_Term<-substr(Enrich_UP$Pathway,12,nchar(Enrich_UP$Pathway))
 #obtaing the negative log of p value to plot
 Enrich_UP$neglogP<- (-log(Enrich_UP$Enrichment.FDR))
 
+#Plotting the data as a bubble plot 
 ggplot(Enrich_UP, aes(x = nGenes, y = Pathway_Term, size = Fold.Enrichment, color = neglogP)) +
   scale_color_gradient(low = "red", high = "blue")+
   geom_point(alpha =0.5) + labs(x = "No_of_Genes", y = "Pathways", title = "Enriched_BP_Pathways_Upregulated_Genes")+
@@ -193,10 +194,3 @@ ggplot(Enrich_UP, aes(x = nGenes, y = Pathway_Term, size = Fold.Enrichment, colo
   theme(plot.title = element_text(hjust = 0.5, vjust = 3))
   
 ```
-
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
