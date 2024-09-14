@@ -120,7 +120,7 @@ heatmap.2(as.matrix(glioma_data),
 ```
 
 ```{r}
-#-----------------------------------------Up and Down Regulated Genes----------------------------------------
+#-----------------------------------------------Up and Down Regulated Genes---------------------------------------------
 #load the data
 glioma_data <- read.csv("https://raw.githubusercontent.com/HackBio-Internship/public_datasets/main/Cancer2024/glioblastoma.csv", row.names = 1)
 
@@ -169,7 +169,7 @@ write.csv(exp_df, file= "UP_DOWN.csv", row.names = TRUE)
 ```
 
 ```{r}
-#----------------------------------------Plotting Pathway--------------------
+#-------------------------------------------------Plotting Pathway---------------------------------------------------------
 setwd("D:/HackBio/Intenship/stage 2/Pathway/Final")
 #load the libraries for bubble plot
 library(ggplot2)
