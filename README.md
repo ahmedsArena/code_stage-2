@@ -45,7 +45,7 @@ url <- <https://raw.githubusercontent.com/HackBio-Internship/public_datasets/mai
 The dataset consists of samples as columns and genes as rows. Each value represents the expression level of a gene in a specific sample.
 
 
-#### 2.1 For visualizing Pathway enrichment analysis
+#### 2.2 For visualizing Pathway enrichment analysis
 
 It requires the top 5 pathways sorted based on FDR values from the functional enrichment analysis results (Enrich\_UP dataset) done with the help of [ShinyGo](http://bioinformatics.sdstate.edu/go/) online tool containing the following columns : 
 
