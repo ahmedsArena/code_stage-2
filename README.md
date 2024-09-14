@@ -1,78 +1,95 @@
-Differential Expression Analysis:
-This project provides a guide to visualizing gene expression data from a glioblastoma dataset. We employ heatmaps to visualize the expression patterns and conduct differential expression analysis to compute fold changes and p-values for significant genes.
+<!--StartFragment-->
 
-Table of Contents
-Requirements
-Loading Data
-Heatmap Generation
-Differential Expression Analysis
-Results and Visualization
 
-Requirements
+# Differential Gene Expression Analysis and Visualizing Functional Enrichment Analysis Results of Glioblastoma RNA-Seq Data
+
+## **Project Description** 
+
+This project provides a step-by-step guide to visualizing gene expression data from a glioblastoma dataset and visualizing significant pathways from functional pathway enrichment analysis. We employ heatmaps to visualize the expression patterns, obtain 2 groups and conduct differential expression analysis to compute fold changes and p-values for significant genes. Further the 
+
+## **Table of Contents**
+
+1\. Requirements
+
+2\. Loading Data
+
+3\. Heatmap Generation
+
+4\. Differential Expression Analysis
+
+5\. Pathway Enrichment analysis
+
+### **1.Requirements**
+
 This project uses the following R libraries:
 
-gplots
-RColorBrewer
-hcl.colors
-ggplot2
+1\. gplots
+2\. ggplot2
+
 You can install these libraries by running:
-install.packages(c("gplots", "RColorBrewer", "ggplot2"))
 
-Loading Data
+install.packages(c("gplots", "ggplot2"))
+
+### **2.Loading Data**
+
+#### 2.1 For gene expression analysis
+
 The dataset is loaded directly from a public URL. This data contains gene expression profiles of glioblastoma samples.
-url <- "https://raw.githubusercontent.com/HackBio-Internship/public_datasets/main/Cancer2024/glioblastoma.csv"
-gene_data <- read.csv(url, row.names = 1)
-head(gene_data)  # Preview the data
 
+url <- <https://raw.githubusercontent.com/HackBio-Internship/public_datasets/main/Cancer2024/glioblastoma.csv>
 
 The dataset consists of samples as columns and genes as rows. Each value represents the expression level of a gene in a specific sample.
 
-Heatmap Generation:
+#### 2.1 For visualizing Pathway enrichment analysis
 
-1.Scaling and Clustering
-To highlight differences in gene expression, we can scale the data across rows (genes) and cluster samples based on their expression profiles.
-heatmap.2(as.matrix(gene_data), trace = 'none', 
-          scale='row', dendrogram = 'col', 
-          Colv = TRUE, Rowv = FALSE)
-4. Customizing Colors
-You can enhance the visual representation of the heatmap by applying sequential or diverging color palettes.
-# Diverging colors
-heatmap.2(as.matrix(gene_data), trace = 'none', 
-          scale='row', dendrogram = 'col', 
-          col=hcl.colors(100, palette = 'green-brown'))
+It requires the top 5 pathways sorted based on FDR values from the functional enrichment analysis results (Enrich\_UP dataset) done with the help of [ShinyGo](http://bioinformatics.sdstate.edu/go/) online tool containing the following columns : 
 
-# Sequential colors
-heatmap.2(as.matrix(gene_data), trace = 'none', 
-          scale='row', dendrogram = 'col', 
-          col=hcl.colors(100, palette = 'Blues3'))
-Differential Expression Analysis
-1. Defining Groups
-The data is split into two groups based on sample characteristics. Group 1 contains samples 1-5, while Group 2 contains samples 6-10.
-group1 <- c(1,2,3,4,5)
-group2 <- c(6,7,8,9,10)
+1. Enrichment.FDR - signifying the p- value significance
 
-group1_data <- gene_data[, group1]
-group2_data <- gene_data[, group2]
+2. nGenes - specifying the number of genes in our subset that belong to the pathway
 
-2. Calculating Fold Change
-We compute the log2 fold change for each gene between the two groups.
-group1_mean <- rowMeans(group1_data)
-group2_mean <- rowMeans(group2_data)
+3. Pathway\_Term - The name of the pathway ( we used the substr function to remove the Pathway ID’s)
 
-# Log fold change
-fold_change <- log2(group2_mean) - log2(group1_mean)
-3. Calculating P-values
-To identify significant genes, we perform a t-test between the two groups and compute p-values for each gene.
-pvalues <- apply(gene_data, 1, function(row) {
-  t.test(row[1:5], row[6:10])$p.value
-})
-4. Visualization of Results
-The fold changes and p-values are plotted to create a volcano plot that helps visualize the significance of the changes.
-plot(fold_change, -log10(pvalues), 
-     xlab = "log2(Fold Change)", 
-     ylab = "-log10(p-value)", 
-     main = "Volcano Plot")
-5. Filtering Significant Genes
-We can filter the results based on specific thresholds for fold change and p-values to identify upregulated and downregulated genes.
-df <- data.frame(fold_change, pvalues)
-significant_genes <- df[df$fold_change > 0.6 & df$pvalues < 0.05, ]
+4. Fold Enrichment - Signifying the ratio of genes in our subset to the total number of background genes in the pathway
+
+### **3. Heatmap Generation**
+
+heatmap.2() function is used to plot the gene expression data. The columns represent the samples and rows represent the genes.
+
+#### 3.1 Color variations
+
+We used the col parameter in heatmap.2() and  hcl.colors() Blue-Red 3 (diverging color palette) and Blues2 (sequential color palette) to visualize the data. Based on the plot the samples were grouped into 2 categories to perform differential gene expression analysis.
+
+####   3.2 Clustering
+
+Rowv, Colv and dendrogram parameters of the heatmap.2() function is used to cluster the data by genes(row) and samples(column)
+
+### **4. Differential Expression Analysis**
+
+#### 4.1 Defining Groups
+
+The data is split into two groups based on sample characteristics observed in the heatmap. 
+
+group 1: ("TCGA.19.4065.02A.11R.2005.01" "TCGA.19.0957.02A.11R.2005.01", "TCGA.06.0152.02A.01R.2005.01", "TCGA.14.1402.02A.01R.2005.01", "TCGA.14.0736.02A.01R.2005.01")
+
+group 2- c("TCGA.06.5410.01A.01R.1849.01","TCGA.19.5960.01A.11R.1850.01", "TCGA.14.0781.01B.01R.1849.01", "TCGA.02.2483.01A.01R.1849.01", "TCGA.06.2570.01A.01R.1849.01")
+
+#### 4.2. Calculating Fold Change
+
+We compute the log2 fold change for each gene between the two groups by subtracting the log2 values of each groups’ mean expression for that gene.
+
+#### 4.3. Calculating P-values
+
+To identify significant genes, we perform a t-test between the two groups and compute p-values for each gene
+
+#### 4.4  Filtering Significant Upregulated and Downregulated Genes
+
+The fold changes and p-values are plotted to create a volcano plot using the plot() that helps visualize the distribution of the fold change and p-value and decide the cutoff to identify up and down regulated genes .
+
+### **5. Visualizing Results of Pathway enrichment study** 
+
+Using the results of ShinyGo functional gene enrichment analysis of the upregulated genes we plotted a bubble plot that provides insights on the number of genes associated with the pathways, p-value significance and fold enrichment. ggplot() function is used for the same. 
+
+The size and color options  in ggplot() are used to represent the fold enrichment and p-value significance while the x and y axis represent the gene count and pathway names.
+
+<!--EndFragment-->
