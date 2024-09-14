@@ -23,13 +23,11 @@ This project provides a step-by-step guide to visualizing gene expression data f
 
 ### **1.Requirements**
 
-This project uses the following R libraries:
+This project uses the following R libraries and default libraries installed in Rstudio:
 
 1\. gplots
 
-3\. hcl.colors
-
-4\. ggplot2
+2\. ggplot2
 
 You can install these libraries by running:
 
