@@ -18,7 +18,7 @@ This project provides a step-by-step guide to visualizing gene expression data f
 
 4\. Differential Expression Analysis
 
-5\. Pathway Enrichment analysis
+5\. Visualizing Results of Pathway enrichment study 
 
 
 ### **1.Requirements**
